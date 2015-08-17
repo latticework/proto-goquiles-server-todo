@@ -13,9 +13,13 @@ var (
 )
 
 type Config struct {
+	// Client fields.
 	Address string
 
 	HttpClient *http.Client
+
+	// Service fields.
+	ServiceVersion string
 }
 
 func DefaultConfig() *Config {
