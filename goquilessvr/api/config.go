@@ -8,10 +8,13 @@ import (
 	"github.com/latticework/proto-goquiles-server-todo/goquilessvr/command"
 )
 
+// @kenbrubaker: Goal here is to merge service and client.
+
 var (
 	errRedirect = errors.New("redirect")
 )
 
+// @kenbrubaker: This content is in client.go in vault.
 type Config struct {
 	// Client fields.
 	Address string

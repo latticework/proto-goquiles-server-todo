@@ -25,10 +25,12 @@ func RunCustom(args []string, commands map[string]cli.CommandFactory) int {
 
 	// Build the commands to include in the help now. This is pretty...
 	// tedious, but we don't have a better way at the moment.
+	// @kenbrubaker: This is done to support undocumented commands.
 	commandsInclude := make([]string, 0, len(commands))
 	for k, _ := range commands {
 		switch k {
-		case "token-disk":
+		// @kenbrubaker: Replace this with commands you want to hide.
+		// case "token-disk":
 		default:
 			commandsInclude = append(commandsInclude, k)
 		}
