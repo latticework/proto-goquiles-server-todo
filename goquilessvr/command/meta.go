@@ -1,17 +1,17 @@
 package command
 
-import  (
+import (
 	"strings"
 
-	"github.com/mitchellh/cli"
 	"github.com/latticework/proto-goquiles-server-todo/goquilessvr/api"
+	"github.com/mitchellh/cli"
 	"os"
-	"net/http"
-	"net"
-	"time"
+	//	"net/http"
+	//	"net"
+	//	"time"
+	"bufio"
 	"flag"
 	"io"
-	"bufio"
 )
 
 // Meta contains the meta-options and functionality that nearly every
@@ -19,7 +19,7 @@ import  (
 type Meta struct {
 	Ui cli.Ui
 
-	flagAddress string
+	flagAddress        string
 	flagServiceVersion string
 }
 
@@ -30,7 +30,7 @@ func (m *Meta) Client() (*api.Client, error) {
 	}
 
 	if serviceVersion := os.Getenv(EnvQuilesServiceVersion); serviceVersion != "" {
-		config.
+		config.ServiceVersion = serviceVersion
 	}
 
 	if m.flagAddress != "" {
@@ -48,15 +48,15 @@ func (m *Meta) Client() (*api.Client, error) {
 type FlagSetFlags uint
 
 const (
-	FlagSetNone FlagSetFlags = 0
-	FlagSetServer FlagSetFlags = 1 << iota
-	FlagSetDefault = FlagSetServer
+	FlagSetNone    FlagSetFlags = 0
+	FlagSetServer  FlagSetFlags = 1 << iota
+	FlagSetDefault              = FlagSetServer
 )
 
 func (m *Meta) FlagSet(n string, fs FlagSetFlags) *flag.FlagSet {
 	f := flag.NewFlagSet(n, flag.ContinueOnError)
 
-	if fs & FlagSetServer != 0 {
+	if fs&FlagSetServer != 0 {
 		f.StringVar(&m.flagAddress, "address", "", "")
 	}
 

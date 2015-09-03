@@ -1,6 +1,6 @@
 package diles
 
-type Messager interface {
+type Messageator interface {
 	MessageCode() uint32
 	Priority() MessagePriority
 	Severity() MessageSeverity

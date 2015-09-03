@@ -1,7 +1,7 @@
 package quilesmodel
 
-type RoutineAction struct {
-	Name      string
+type RoutineMessage struct {
+	Action    string
 	Direction ActionDirection
 	Schema    SchemaReference
 }

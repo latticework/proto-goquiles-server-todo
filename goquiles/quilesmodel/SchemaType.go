@@ -4,7 +4,20 @@ type SchemaType int
 
 const (
 	None SchemaType = iota
-	Direct
+	Result
 	Resource
 	Event
+	Direct
 )
+
+var schemaTypes = [...]string{
+	"None",
+	"Result",
+	"Resource",
+	"Event",
+	"Direct",
+}
+
+func (v SchemaType) String() string {
+	return schemaTypes[v]
+}

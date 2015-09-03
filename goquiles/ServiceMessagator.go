@@ -4,10 +4,10 @@ import (
 	"github.com/latticework/proto-goquiles-server-todo/godiles"
 )
 
-type ServiceMessager interface {
+type ServiceMessagator interface {
 	Contract() MessageContract
 	Data() interface{}
-	Messages() diles.Messagers
+	Messages() diles.Messageators
 	Identity() MessageIdentity
 	Connection() MessageConnection
 	Tenant() TenantIdentity

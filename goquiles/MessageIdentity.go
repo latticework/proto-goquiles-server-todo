@@ -1,4 +1,4 @@
-package goquiles
+package quiles
 
 type MessageIdentity struct {
 	TransactionId         string

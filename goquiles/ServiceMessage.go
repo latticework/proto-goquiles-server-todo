@@ -5,7 +5,7 @@ import "github.com/latticework/proto-goquiles-server-todo/godiles"
 type ServiceMessageConfig struct {
 	Contract   MessageContract
 	Data       interface{}
-	Messages   diles.Messagers
+	Messages   diles.Messageators
 	Identity   MessageIdentity
 	Connection MessageConnection
 	Tenant     TenantIdentity
@@ -14,13 +14,13 @@ type ServiceMessageConfig struct {
 type ServiceMessage struct {
 	contract   MessageContract
 	data       interface{}
-	messages   diles.Messagers
+	messages   diles.Messageators
 	identity   MessageIdentity
 	connection MessageConnection
 	tenant     TenantIdentity
 }
 
-func NewServiceMesage(config ServiceMessageConfig) (*ServiceMessager, error) {
+func NewServiceMesage(config ServiceMessageConfig) (*ServiceMessagator, error) {
 	return &ServiceMessage{
 		contract:   config.Contract,
 		data:       config.Data,
@@ -39,7 +39,7 @@ func (m *ServiceMessage) Data() interface{} {
 	return m.data
 }
 
-func (m *ServiceMessage) Messages() diles.Messagers {
+func (m *ServiceMessage) Messages() diles.Messageators {
 	return m.messages
 }
 

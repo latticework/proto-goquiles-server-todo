@@ -1,5 +1,6 @@
 package quilesmodel
 
 type RestMethodRequest struct {
-	Action RoutineAction
+	Message RoutineMessage
+	Mode    DataTransmissionModes
 }

@@ -1,4 +1,4 @@
-package jali
+package jubeo
 
 import (
 	"github.com/shopspring/decimal"
