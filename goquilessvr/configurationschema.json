@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "quilessvr configuration",
+  "description": "Configuration schema for quilessvr.",
+  "type": "object",
+  "properties": {
+    "quiles": {
+      "description": "Configuration of Quiles services",
+      "type": "object",
+      "properties": {
+        "ctl": {
+          "description": "Configuration of the Quiles administrative interface",
+          "type": "object",
+          "properties": {
+            "server": {
+            }
+          }
+        },
+        "srv": {
+          "description": "Configuration of the Quiles server process",
+          "type": "object",
+          "properties": {
+          }
+        }
+      }
+    }
+  }
+}

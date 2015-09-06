@@ -13,10 +13,9 @@ import (
 // HelpFunc is a cli.HelpFunc that can is used to output the help for goquilessvr.
 func HelpFunc(commands map[string]cli.CommandFactory) string {
 	commonNames := map[string]struct{}{
-		"server": struct{}{},
-		"start":  struct{}{},
-		"stop":   struct{}{},
-		"send":   struct{}{},
+		"start": struct{}{},
+		"stop":  struct{}{},
+		"send":  struct{}{},
 	}
 
 	// Determine the maximum key length, and classify based on type
@@ -36,7 +35,7 @@ func HelpFunc(commands map[string]cli.CommandFactory) string {
 	}
 
 	var buf bytes.Buffer
-	buf.WriteString("usage: goquilessvr [-version] [-help] <command> [args]\n\n")
+	buf.WriteString("usage: goquilesctl [-version] [-help] <command> [args]\n\n")
 	buf.WriteString("Common commands:\n")
 	buf.WriteString(listCommands(commonCommands, maxKeyLen))
 	buf.WriteString("\nAll other commands:\n")

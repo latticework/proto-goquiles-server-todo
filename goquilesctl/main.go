@@ -1,4 +1,4 @@
-package goquilessvr
+package main
 
 import (
 	"github.com/latticework/proto-goquiles-server-todo/goquilesctl/cli"

@@ -18,11 +18,13 @@
       <root url="file://$PROJECT_DIR$/../../../golang.org/x/crypto/.git" />
       <root url="file://$PROJECT_DIR$/../../xeipuuv/gojsonreference/.git" />
       <root url="file://$PROJECT_DIR$/../../../golang.org/x/tools/go/callgraph/rta/testdata" />
+      <root url="file://$PROJECT_DIR$/../../hashicorp/consul/.git" />
       <root url="file://$PROJECT_DIR$/../../../golang.org/x/tools/cmd/cover/testdata" />
       <root url="file://$PROJECT_DIR$/../../../golang.org/x/tools/cmd/stringer/testdata" />
       <root url="file://$PROJECT_DIR$/../../xeipuuv/gojsonpointer/.git" />
       <root url="file://$PROJECT_DIR$/../../shopspring/decimal/.git" />
       <root url="file://$PROJECT_DIR$/../../../golang.org/x/tools/go/pointer/testdata" />
+      <root url="file://$PROJECT_DIR$/../../hashicorp/consul/website/source/assets/javascripts/_app" />
       <root url="file://$PROJECT_DIR$/../../../golang.org/x/tools/go/ssa/ssautil/testdata" />
       <root url="file://$PROJECT_DIR$/../../mitchellh/cli/.git" />
       <root url="file://$PROJECT_DIR$/../../../golang.org/x/tools/go/types/testdata" />
