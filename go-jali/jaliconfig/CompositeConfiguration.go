@@ -2,43 +2,69 @@ package jaliconfig
 
 import (
 	"github.com/latticework/proto-goquiles-server-todo/go-jali/jalicore"
-	"github.com/shopspring/decimal"
-
-	"time"
+	"sort"
 )
 
 type CompositeConfiguration struct {
 	configurators []Configurator
 }
 
-func (config *CompositeConfiguration) GetJsonValue(key string) (interface{}, error) {
+func NewCompositeConfiguration(config *CompositeConfig) (CompositeConfiguration, error) {
+	if config == nil {
+		config = DefaultCompositeConfig
+	}
+
+	if config.Configurators == nil {
+		config.Configurators = DefaultCompositeConfig.Configurators
+	}
+
+	c := CompositeConfiguration{
+		configurators: sort.Reverse(config.Configurators),
+	}
+
+	return c
+}
+
+func (config *CompositeConfiguration) GetJsonValue(
+	key string, defaultValue map[string]interface{}) (map[string]interface{}, error) {
+	for _, cfg := range config.configurators {
+		json, err := cfg.GetJsonValue(key, _)
+		if json != nil {
+			return json, _
+		}
+
+		if !err.(*KeyNotFoundError) {
+			return _, err
+		}
+	}
+
+	if defaultValue != nil {
+		return defaultValue, _
+	}
+
+	return _, KeyNotFoundError{}.Init(key)
+}
+
+func (config *CompositeConfiguration) GetValue(key string, defaultValue interface{}) (interface{}, error) {
 	return nil, jalicore.NotImplementedError{}.Init(nil, nil)
 }
 
-func (config *CompositeConfiguration) GetValue(key string) (interface{}, error) {
-	return nil, jalicore.NotImplementedError{}.Init(nil, nil)
-}
+func buildCompositeConfig(config *CompositeConfig, defaultConfig *CompositeConfig) (*CompositeConfig, error) {
+	if config == nil {
+		newConfig := CompositeConfig{
+			Configurators: defaultConfig.Configurators,
+		}
 
-func (config *CompositeConfiguration) GetStringValue(key string) (string, error) {
-	return nil, jalicore.NotImplementedError{}.Init(nil, nil)
-}
+		return newConfig, _
+	}
 
-func (config *CompositeConfiguration) GetIntegerValue(key string) (int, error) {
-	return nil, jalicore.NotImplementedError{}.Init(nil, nil)
-}
+	newConfig := CompositeConfig{
+		Configurators: config.Configurators,
+	}
 
-func (config *CompositeConfiguration) GetDecimalValue(key string) (decimal.Decimal, error) {
-	return nil, jalicore.NotImplementedError{}.Init(nil, nil)
-}
+	if newConfig.Configurators == nil {
+		newConfig.Configurators = defaultConfig.Configurators
+	}
 
-func (config *CompositeConfiguration) GetDate(key string) (time.Time, error) {
-	return nil, jalicore.NotImplementedError{}.Init(nil, nil)
-}
-
-func (config *CompositeConfiguration) GetDuration(key string) (time.Duration, error) {
-	return nil, jalicore.NotImplementedError{}.Init(nil, nil)
-}
-
-func (config *CompositeConfiguration) GetTimestamp(key string) (time.Time, error) {
-	return nil, jalicore.NotImplementedError{}.Init(nil, nil)
+	return newConfig
 }

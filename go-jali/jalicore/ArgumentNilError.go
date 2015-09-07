@@ -7,7 +7,7 @@ type ArgumentNilError struct {
 	Name string
 }
 
-func (err ArgumentNilError) Init(name string) {
+func (err *ArgumentNilError) Init(name string) *ArgumentNilError {
 	var msg string
 
 	if name != nil || len(name) > 0 {
@@ -18,4 +18,6 @@ func (err ArgumentNilError) Init(name string) {
 
 	err.StructuredError.Init(msg, _)
 	err.Name = name
+
+	return err
 }

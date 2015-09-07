@@ -22,7 +22,7 @@ func (c *VersionCommand) Help() string {
 func (c *VersionCommand) Run(_ []string) int {
 	var versionString bytes.Buffer
 
-	fmt.Fprintf(&versionString, "quilesctl v%s", c.Version)
+	fmt.Fprintf(&versionString, "quilessvr v%s", c.Version)
 	if c.VersionPrerelease != "" {
 		fmt.Fprintf(&versionString, "-%s", c.VersionPrerelease)
 

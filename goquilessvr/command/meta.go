@@ -5,7 +5,7 @@ import (
 
 	"github.com/latticework/proto-goquiles-server-todo/goquilesctl/api"
 	"github.com/mitchellh/cli"
-	"os"
+	//	"os"
 	//	"net/http"
 	//	"net"
 	//	"time"
@@ -25,13 +25,13 @@ type Meta struct {
 
 func (m *Meta) Client() (*api.Client, error) {
 	config := api.DefaultConfig()
-	if address := os.Getenv(EnvQuilesServerAddress); address != "" {
-		config.Address = address
-	}
+	//	if address := os.Getenv(EnvQuilesServerAddress); address != "" {
+	//		config.Address = address
+	//	}
 
-	if serviceVersion := os.Getenv(EnvQuilesServiceVersion); serviceVersion != "" {
-		config.ServiceVersion = serviceVersion
-	}
+	//	if serviceVersion := os.Getenv(EnvQuilesServiceVersion); serviceVersion != "" {
+	//		config.ServiceVersion = serviceVersion
+	//	}
 
 	if m.flagAddress != "" {
 		config.Address = m.flagAddress

@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/latticework/proto-goquiles-server-todo/goquilesctl/command"
+	"github.com/latticework/proto-goquiles-server-todo/goquilessvr/command"
 	"os"
 
 	"github.com/mitchellh/cli"
@@ -21,26 +21,8 @@ func Commands(metaPtr *command.Meta) map[string]cli.CommandFactory {
 	}
 
 	return map[string]cli.CommandFactory{
-		"init": func() (cli.Command, error) {
-			return &command.InitCommand{
-				Meta: meta,
-			}, nil
-		},
-
-		"start": func() (cli.Command, error) {
-			return &command.StartCommand{
-				Meta: meta,
-			}, nil
-		},
-
-		"stop": func() (cli.Command, error) {
-			return &command.StopCommand{
-				Meta: meta,
-			}, nil
-		},
-
-		"send": func() (cli.Command, error) {
-			return &command.SendCommand{
+		"server": func() (cli.Command, error) {
+			return &command.ServerCommand{
 				Meta: meta,
 			}, nil
 		},

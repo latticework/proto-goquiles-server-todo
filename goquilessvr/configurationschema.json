@@ -20,6 +20,18 @@
           "description": "Configuration of the Quiles server process",
           "type": "object",
           "properties": {
+            "identity": {
+              "description": "The server's Identity",
+              "type": "object",
+              "properties": {
+                "port": {
+                  "description": "The port to listen on.",
+                  "type": "number",
+                  "format": "integer",
+                  "default": 8090
+                }
+              }
+            }
           }
         }
       }

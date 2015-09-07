@@ -7,7 +7,7 @@ type ArgumentError struct {
 	Name string
 }
 
-func (err *ArgumentError) Init(name string, message string, inner error) {
+func (err *ArgumentError) Init(name string, message string, inner error) *ArgumentError {
 	msg := message
 
 	switch {
@@ -20,4 +20,6 @@ func (err *ArgumentError) Init(name string, message string, inner error) {
 
 	err.StructuredError.Init(msg, inner)
 	err.Name = name
+
+	return err
 }

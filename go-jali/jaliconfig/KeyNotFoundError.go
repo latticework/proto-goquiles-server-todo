@@ -10,8 +10,10 @@ type KeyNotFoundError struct {
 	Path string
 }
 
-func (err *KeyNotFoundError) Init(path string) {
+func (err *KeyNotFoundError) Init(path string) *KeyNotFoundError {
 	msg := fmt.Sprintf("Could not find path '%s' when resolving for key", path)
 	err.StructuredError.Init(msg, _)
 	err.Path = path
+
+	return err
 }

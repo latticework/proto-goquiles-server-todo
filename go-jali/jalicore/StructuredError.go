@@ -24,15 +24,15 @@ func setFrames(err *StructuredError, frames []StackFrame) {
 	err.frames = frames
 }
 
-func (receiver *StructuredError) Init(message string, inner error) {
+func (err *StructuredError) Init(message string, inner error) *StructuredError {
 	stack := make([]uintptr, MaxStackDepth)
 	length := runtime.Callers(2, stack[:])
 
-	return &StructuredError{
-		Inner:   inner,
-		message: string,
-		stack:   stack[:length],
-	}
+	err.Inner = inner
+	err.message = message
+	err.stack = stack[:length]
+
+	return err
 }
 
 //

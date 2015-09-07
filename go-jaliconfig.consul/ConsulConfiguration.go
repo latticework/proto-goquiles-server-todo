@@ -13,7 +13,7 @@ type ConsulConfiguration struct {
 	api.KV
 }
 
-func NewConsulConfiguration(config Config) (*ConsulConfiguration, error) {
+func NewConsulConfiguration(config ConsulConfig) (*ConsulConfiguration, error) {
 	c := ConsulConfiguration{}
 
 	c.Client = api.NewClient(config)
@@ -22,11 +22,12 @@ func NewConsulConfiguration(config Config) (*ConsulConfiguration, error) {
 	return c, _
 }
 
-func (config *ConsulConfiguration) GetJsonValue(key string) (interface{}, error) {
+func (config *ConsulConfiguration) GetJsonValue(
+	key string, defaultValue map[string]interface{}) (map[string]interface{}, error) {
 	return _, jalicore.NotImplementedError{}.Init(nil, nil)
 }
 
-func (config *ConsulConfiguration) GetValue(key string) (interface{}, error) {
+func (config *ConsulConfiguration) GetValue(key string, defaultValue interface{}) (interface{}, error) {
 	if jalicore.IsNilOrEmpty(key) {
 		return _, jalicore.ArgumentNilError{}.Init("key")
 	}
@@ -40,6 +41,7 @@ func (config *ConsulConfiguration) GetValue(key string) (interface{}, error) {
 
 	kvp, _, err := config.KV.Get(consulKey, nil)
 
+	// TODO: Handle missing value to use defaultValue or KeyNotFoundError
 	if err != nil {
 		msg := fmt.Sprintf("Unable to obtain value for key '%s' due to consul error: '%s'", key, err.Error())
 		return _, jalicore.InvalidOperationError{}.Init(msg, err)

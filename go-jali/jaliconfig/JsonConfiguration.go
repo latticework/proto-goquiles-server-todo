@@ -39,11 +39,12 @@ func NewJsonConfiguration(config *JsonConfig) (*JsonConfiguration, error) {
 	return &c, _
 }
 
-func (config *JsonConfiguration) GetJsonValue(key string) (interface{}, error) {
+func (config *JsonConfiguration) GetJsonValue(
+key string, defaultValue map[string]interface{}) (map[string]interface{}, error) {
 	return nil, jalicore.NotImplementedError{}.Init(nil, nil)
 }
 
-func (config *JsonConfiguration) GetValue(key string) (interface{}, error) {
+func (config *JsonConfiguration) GetValue(key string, defaultValue interface{}) (interface{}, error) {
 	jsonObject := config.Json
 	name := key
 
@@ -55,6 +56,9 @@ func (config *JsonConfiguration) GetValue(key string) (interface{}, error) {
 		jsonObject, err = config.navigateToObject(baseKey)
 
 		if err != nil {
+			if err.(*KeyNotFoundError) {
+				return defaultValue, _
+			}
 			return _, err
 		}
 	}
@@ -67,25 +71,37 @@ func (config *JsonConfiguration) GetValue(key string) (interface{}, error) {
 		}
 	}
 
-	if value == nil {
-		return _, KeyNotFoundError{}.Init(key)
+	if value != nil {
+		return value, _
 	}
 
-	return value, _
+	if defaultValue != nil {
+		return defaultValue, _
+	}
+
+	return _, KeyNotFoundError{}.Init(key)
 }
 
 
 func buildJsonConfig(config *JsonConfig, defaultConfig *JsonConfig) (*JsonConfig, error) {
-	newConfig := JsonConfig{
-		SettingsFileName: config.SettingsFileName,
-		Path: config.Path,
+	var newConfig JsonConfig
+	if config == nil {
+		newConfig = JsonConfig{
+			SettingsFileName: defaultConfig.SettingsFileName,
+			Path: defaultConfig.Path,
+		}
+	} else {
+		newConfig = JsonConfig{
+			SettingsFileName: config.SettingsFileName,
+			Path: config.Path,
+		}
 	}
 
-	if config == nil || jalicore.IsNilOrEmpty(config.SettingsFileName) {
+	if jalicore.IsNilOrEmpty(config.SettingsFileName) {
 		newConfig.SettingsFileName = DefaultJsonConfig.SettingsFileName
 	}
 
-	if config == nil || config.Path == nil || len(config.Path) == 0 {
+	if config == nil || newConfig.Path == nil || len(config.Path) == 0 {
 		path, err := filepath.Abs(".")
 
 		if err != nil {
@@ -117,11 +133,11 @@ func buildJsonConfig(config *JsonConfig, defaultConfig *JsonConfig) (*JsonConfig
 		switch {
 		case err == nil && fileInfo.IsDir():
 		case err == nil:
-			msg = fmt.Sprintf("Path '%s' is not a directory.", config.Path)
+			msg = fmt.Sprintf("Path '%s' is not a directory.", newConfig.Path)
 		case os.IsNotExist(err):
-			msg = fmt.Sprintf("Path '%s' does not exist.", config.Path)
+			msg = fmt.Sprintf("Path '%s' does not exist.", newConfig.Path)
 		default:
-			msg = fmt.Sprintf("Path '%s' is in error: '%s'.", config.Path, err.Error())
+			msg = fmt.Sprintf("Path '%s' is in error: '%s'.", newConfig.Path, err.Error())
 		}
 
 		if msg != nil {

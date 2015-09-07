@@ -10,19 +10,19 @@ import (
 )
 
 type Configurator interface {
-	GetJsonValue(key string) (interface{}, error)
-	GetValue(key string) (interface{}, error)
-	GetStringValue(key string) (string, error)
-	GetIntegerValue(key string) (int, error)
-	GetDecimalValue(key string) (decimal.Decimal, error)
-	GetDate(key string) (time.Time, error)
-	GetDuration(key string) (time.Duration, error)
-	GetTimestamp(key string) (time.Time, error)
+	GetJsonValue(key string, defaultValue map[string]interface{}) (map[string]interface{}, error)
+	GetValue(key string, defaultValue interface{}) (interface{}, error)
+	GetStringValue(key string, defaultValue string) (string, error)
+	GetIntegerValue(key string, defaultValue int) (int, error)
+	GetDecimalValue(key string, defaultValue decimal.Decimal) (decimal.Decimal, error)
+	GetDate(key string, defaultValue time.Time) (time.Time, error)
+	GetDuration(key string, defaultValue time.Duration) (time.Duration, error)
+	GetTimestamp(key string, defaultValue time.Time) (time.Time, error)
 }
 
 // https://github.com/luciotato/golang-notes/blob/master/second-level%20methods.md
-func (config *Configurator) GetStringValue(key string) (string, error) {
-	v, err := config.GetValue(key)
+func (config *Configurator) GetStringValue(key string, defaultValue string) (string, error) {
+	v, err := config.GetValue(key, defaultValue)
 
 	if v == nil || err != nil {
 		return _, err
@@ -39,8 +39,8 @@ func (config *Configurator) GetStringValue(key string) (string, error) {
 	return _, jalicore.InvalidOperationError{}.Init(msg, _)
 }
 
-func (config *Configurator) GetIntegerValue(key string) (int, error) {
-	v, err := config.GetValue(key)
+func (config *Configurator) GetIntegerValue(key string, defaultValue int) (int, error) {
+	v, err := config.GetValue(key, defaultValue)
 
 	if err != nil {
 		return _, err
@@ -49,18 +49,18 @@ func (config *Configurator) GetIntegerValue(key string) (int, error) {
 	return strconv.Atoi(v)
 }
 
-func (config *Configurator) GetDecimalValue(key string) (decimal.Decimal, error) {
+func (config *Configurator) GetDecimalValue(key string, defaultValue decimal.Decimal) (decimal.Decimal, error) {
 	return _, jalicore.NotImplementedError{}.Init(nil, nil)
 }
 
-func (config *Configurator) GetDate(key string) (time.Time, error) {
+func (config *Configurator) GetDate(key string, defaultValue time.Time) (time.Time, error) {
 	return _, jalicore.NotImplementedError{}.Init(nil, nil)
 }
 
-func (config *Configurator) GetDuration(key string) (time.Duration, error) {
+func (config *Configurator) GetDuration(key string, defaultValue time.Duration) (time.Duration, error) {
 	return _, jalicore.NotImplementedError{}.Init(nil, nil)
 }
 
-func (config *Configurator) GetTimestamp(key string) (time.Time, error) {
+func (config *Configurator) GetTimestamp(key string, defaultValue time.Time) (time.Time, error) {
 	return _, jalicore.NotImplementedError{}.Init(nil, nil)
 }
