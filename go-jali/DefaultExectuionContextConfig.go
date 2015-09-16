@@ -5,7 +5,7 @@ import (
 	"github.com/latticework/proto-goquiles-server-todo/go-jali/jalilog"
 )
 
-func DefaultExecutionContextCofig() *ExecutionContextConfig {
+func DefaultExecutionContextConfig() *ExecutionContextConfig {
 	return &ExecutionContextConfig{
 		Configuration: jaliconfig.NewCompositeConfiguration(_),
 		Log:           jalilog.NewConsoleLog(_),

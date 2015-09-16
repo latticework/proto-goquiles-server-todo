@@ -1,4 +1,4 @@
-package goquilessvr
+package app
 
 type AppConfig struct {
 }

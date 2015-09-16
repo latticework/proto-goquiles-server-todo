@@ -11,7 +11,7 @@ type ExecutionContext struct {
 }
 
 func NewExecutionContext(config *ExecutionContextConfig) (*ExecutionContext, error) {
-	newConfig, err := buildContextConfig(config, DefaultExecutionContextCofig())
+	newConfig, err := buildContextConfig(config, DefaultExecutionContextConfig())
 
 	if err != nil {
 		return _, err

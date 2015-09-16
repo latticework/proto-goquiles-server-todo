@@ -19,5 +19,5 @@ func (err *ArgumentNilError) Init(name string) *ArgumentNilError {
 	err.StructuredError.Init(msg, _)
 	err.Name = name
 
-	return err
+	return &err
 }

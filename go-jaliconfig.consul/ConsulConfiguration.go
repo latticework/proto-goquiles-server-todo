@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// http://techblog.zeomega.com/devops/golang/2015/06/09/consul-kv-api-in-golang.html
+// http://techblog.zeomega.com/devops/golang/2015/06/09/consul-kv-app-in-golang.html
 type ConsulConfiguration struct {
 	api.Client
 	api.KV
@@ -19,7 +19,7 @@ func NewConsulConfiguration(config ConsulConfig) (*ConsulConfiguration, error) {
 	c.Client = api.NewClient(config)
 	c.KV = c.KV()
 
-	return c, _
+	return &c, _
 }
 
 func (config *ConsulConfiguration) GetJsonValue(

@@ -2,7 +2,8 @@ package command
 
 import (
 	"fmt"
-	"github.com/latticework/proto-goquiles-server-todo/goquilesctl/api"
+	"github.com/latticework/proto-goquiles-server-todo/go-jali/jalicore"
+	"path/filepath"
 	"strings"
 )
 
@@ -13,37 +14,48 @@ type ServerCommand struct {
 func (c *ServerCommand) Run(args []string) int {
 	var requestUrl, requestJson string
 
+	// TODO: Ref https://github.com/hashicorp/vault/blob/master/command/server.go
+
 	flags := c.Meta.FlagSet("server", FlagSetDefault)
 	flags.Usage = func() { c.Ui.Error(c.Help()) }
-	//	flags.StringVar(&requestUrl, "message", "", "")
-	//	flags.StringVar(&requestJson, "message", "", "")
 
-	if err := flags.Parse(args); err != nil {
-		return 1
-	}
+	// @kenbrubaker: How to do validation...
+	// Validation
+	//	if !dev && len(configPath) == 0 {
+	//		c.Ui.Error("At least one config path must be specified with -config")
+	//		flags.Usage()
+	//		return 1
+	//	}
 
-	client, err := c.Client()
+	pwdAbsolute, err := filepath.Abs("./")
+
 	if err != nil {
-		c.Ui.Error(fmt.Sprintf(
-			"Error initializing client: %s", err))
+		msg := "Error getting current working directory: '%s'", err.Error()
+		c.Ui.Error(msg)
 		return 1
 	}
 
-	request := api.SendRequest{
-		RequestURL:  requestUrl,
-		RequestJSON: requestJson,
-	}
+	serviceDefinitionFile, err := jalicore.FindSettingsFile("servicequiles.json", pwdAbsolute)
 
-	response, err := client.Send(&request)
 	if err != nil {
-		c.Ui.Error(fmt.Sprintf(
-			"Error sending message: %s", err))
+		var msg string
+
+		switch err := err.(type) {
+		case jalicore.StructuredError:
+			msg = fmt.Sprintf(
+				"Unable to find service definition file from location '%s'.\nError Type: '%s'\nMessage:\n'%s'\nStack:\n%s",
+				pwdAbsolute, err.TypeName(), err.Error(), err.ErrorStack())
+		default:
+			msg = fmt.Sprintf(
+				"Unable to find service definition file from location '%s'. Error: %s",
+				pwdAbsolute, err.Error())
+
+		}
+
+		c.Ui.Error(msg)
 
 		return 1
 	}
-
-	c.Ui.Output(fmt.Sprintf("Response for message to '%s':\n%s",
-		request.RequestURL, response.ResponseJSON))
 
 	return 0
 }

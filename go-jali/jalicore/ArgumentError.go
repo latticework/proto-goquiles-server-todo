@@ -21,5 +21,5 @@ func (err *ArgumentError) Init(name string, message string, inner error) *Argume
 	err.StructuredError.Init(msg, inner)
 	err.Name = name
 
-	return err
+	return &err
 }

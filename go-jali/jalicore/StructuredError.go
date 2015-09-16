@@ -32,7 +32,7 @@ func (err *StructuredError) Init(message string, inner error) *StructuredError {
 	err.message = message
 	err.stack = stack[:length]
 
-	return err
+	return &err
 }
 
 //
