@@ -34,8 +34,8 @@ func ParsePanic(text string) (*StructuredError, error) {
 				message = strings.TrimPrefix(line, "panic: ")
 				state = "seek"
 			} else {
-				return nil, InternalError{}.Init(fmt.Sprintf(
-					"jalicore.panicParser: Invalid line (no prefix): %s", line))
+				return nil, (&InternalError{}).Init(fmt.Sprintf(
+					"jalicore.panicParser: Invalid line (no prefix): %s", line), nil)
 			}
 
 		} else if state == "seek" {
@@ -57,8 +57,8 @@ func ParsePanic(text string) (*StructuredError, error) {
 			i++
 
 			if i >= len(lines) {
-				return nil, InternalError{}.Init(fmt.Sprintf(
-					"jalicore.panicParser: Invalid line (unpaired): %s", line))
+				return nil, (&InternalError{}).Init(fmt.Sprintf(
+					"jalicore.panicParser: Invalid line (unpaired): %s", line), nil)
 			}
 
 			frame, err := parsePanicFrame(line, lines[i], createdBy)
@@ -75,15 +75,15 @@ func ParsePanic(text string) (*StructuredError, error) {
 	}
 
 	if state == "done" || state == "parsing" {
-		var panicError *uncaughtPanic = uncaughtPanic{message: message}
+		var panicError = (&uncaughtPanic{}).Init(message, nil)
 
 		setFrames(panicError, stack)
 
 		return panicError, nil
 	}
 
-	return nil, InternalError{}.Init(fmt.Sprintf(
-		"jalicore.panicParser: could not parse panic: %v", text))
+	return nil, (&InternalError{}).Init(fmt.Sprintf(
+		"jalicore.panicParser: could not parse panic: %v", text), nil)
 }
 
 // The lines we're passing look like this:
@@ -93,8 +93,8 @@ func ParsePanic(text string) (*StructuredError, error) {
 func parsePanicFrame(name string, line string, createdBy bool) (*StackFrame, error) {
 	idx := strings.LastIndex(name, "(")
 	if idx == -1 && !createdBy {
-		return nil, InternalError{}.Init(fmt.Sprintf(
-			"jalicore.panicParser: Invalid line (no call): %s", line))
+		return nil, (&InternalError{}).Init(fmt.Sprintf(
+			"jalicore.panicParser: Invalid line (no call): %s", line), nil)
 	}
 	if idx != -1 {
 		name = name[:idx]
@@ -113,14 +113,14 @@ func parsePanicFrame(name string, line string, createdBy bool) (*StackFrame, err
 	name = strings.Replace(name, "·", ".", -1)
 
 	if !strings.HasPrefix(line, "\t") {
-		return nil, InternalError{}.Init(fmt.Sprintf(
-			"jalicore.panicParser: Invalid line (no tab): %s", line))
+		return nil, (&InternalError{}).Init(fmt.Sprintf(
+			"jalicore.panicParser: Invalid line (no tab): %s", line), nil)
 	}
 
 	idx = strings.LastIndex(line, ":")
 	if idx == -1 {
-		return nil, InternalError{}.Init(fmt.Sprintf(
-			"jalicore.panicParser: Invalid line (no line number): %s", line))
+		return nil, (&InternalError{}).Init(fmt.Sprintf(
+			"jalicore.panicParser: Invalid line (no line number): %s", line), nil)
 	}
 	file := line[1:idx]
 
@@ -131,8 +131,8 @@ func parsePanicFrame(name string, line string, createdBy bool) (*StackFrame, err
 
 	lno, err := strconv.ParseInt(number, 10, 32)
 	if err != nil {
-		return nil, InternalError{}.Init(fmt.Sprintf(
-			"jalicore.panicParser: Invalid line (bad line number): %s", line))
+		return nil, (&InternalError{}).Init(fmt.Sprintf(
+			"jalicore.panicParser: Invalid line (bad line number): %s", line), nil)
 	}
 
 	return &StackFrame{

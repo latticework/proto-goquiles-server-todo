@@ -32,7 +32,7 @@ func (err *StructuredError) Init(message string, inner error) *StructuredError {
 	err.message = message
 	err.stack = stack[:length]
 
-	return &err
+	return err
 }
 
 //
@@ -102,9 +102,12 @@ func (err *StructuredError) StackFrames() []StackFrame {
 
 // TypeName returns the type this error. e.g. *errors.stringError.
 func (err *StructuredError) TypeName() string {
-	if _, ok := err.(uncaughtPanic); ok {
+
+	errType := reflect.TypeOf(*err)
+
+	if errType == reflect.TypeOf(uncaughtPanic{}) {
 		return "panic"
 	}
 
-	return reflect.TypeOf(err).String()
+	return errType.String()
 }

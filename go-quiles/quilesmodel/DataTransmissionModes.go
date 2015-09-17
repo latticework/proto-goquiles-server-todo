@@ -3,21 +3,21 @@ package quilesmodel
 type DataTransmissionModes int
 
 const (
-	None   DataTransmissionModes = 1 << iota
-	Result DataTransmissionModes = 1
-	Notify DataTransmissionModes = 1 << iota
+	ModeNone   DataTransmissionModes = 1 << iota
+	ModeResult DataTransmissionModes = 1
+	Notify     DataTransmissionModes = 1 << iota
 	Patch
 	Full
-	All = Result + Notify + Patch + Full
+	All = ModeResult + Notify + Patch + Full
 )
 
 var dataTransmissionModes = map[DataTransmissionModes]string{
-	None:   "None",
-	Result: "Result",
-	Notify: "Notify",
-	Patch:  "Patch",
-	Full:   "Full",
-	All:    "All",
+	ModeNone:   "ModeNone",
+	ModeResult: "ModeResult",
+	Notify:     "Notify",
+	Patch:      "Patch",
+	Full:       "Full",
+	All:        "All",
 }
 
 func (v DataTransmissionModes) String() string {

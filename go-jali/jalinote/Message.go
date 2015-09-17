@@ -33,7 +33,7 @@ func (message *Message) MessageCode() uint32 {
 }
 
 func (message *Message) Priority() MessagePriority {
-	if message.priority == None {
+	if message.priority == PriorityNone {
 		message.priority = MessagePriority(message.severity)
 	}
 

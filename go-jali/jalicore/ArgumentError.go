@@ -11,8 +11,8 @@ func (err *ArgumentError) Init(name string, message string, inner error) *Argume
 	msg := message
 
 	switch {
-	case msg != nil:
-	case name != nil || len(name) > 0:
+	case msg != "":
+	case name != "" || len(name) > 0:
 		msg = fmt.Sprintf("Argument '%v' is in error.", name)
 	default:
 		msg = "Argument is in error."
@@ -21,5 +21,5 @@ func (err *ArgumentError) Init(name string, message string, inner error) *Argume
 	err.StructuredError.Init(msg, inner)
 	err.Name = name
 
-	return &err
+	return err
 }

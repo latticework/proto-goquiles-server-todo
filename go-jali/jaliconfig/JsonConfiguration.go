@@ -1,12 +1,12 @@
 package jaliconfig
 
 import (
-	"github.com/latticework/proto-goquiles-server-todo/go-jali/jalicore"
-	"path/filepath"
-	"os"
-	"fmt"
-	"io/ioutil"
 	"encoding/json"
+	"fmt"
+	"github.com/latticework/proto-goquiles-server-todo/go-jali/jalicore"
+	"io/ioutil"
+	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -14,7 +14,6 @@ type JsonConfiguration struct {
 	Config JsonConfig
 	Json   map[string]interface{}
 }
-
 
 func NewJsonConfiguration(config *JsonConfig) (*JsonConfiguration, error) {
 	c := JsonConfiguration{}
@@ -40,7 +39,7 @@ func NewJsonConfiguration(config *JsonConfig) (*JsonConfiguration, error) {
 }
 
 func (config *JsonConfiguration) GetJsonValue(
-key string, defaultValue map[string]interface{}) (map[string]interface{}, error) {
+	key string, defaultValue map[string]interface{}) (map[string]interface{}, error) {
 	return nil, jalicore.NotImplementedError{}.Init(nil, nil)
 }
 
@@ -67,7 +66,7 @@ func (config *JsonConfiguration) GetValue(key string, defaultValue interface{}) 
 	for _, propertyName := range jsonObject {
 		if strings.EqualFold(name, propertyName) {
 			value = jsonObject[propertyName]
-			break;
+			break
 		}
 	}
 
@@ -82,18 +81,17 @@ func (config *JsonConfiguration) GetValue(key string, defaultValue interface{}) 
 	return _, KeyNotFoundError{}.Init(key)
 }
 
-
 func buildJsonConfig(config *JsonConfig, defaultConfig *JsonConfig) (*JsonConfig, error) {
 	var newConfig JsonConfig
 	if config == nil {
 		newConfig = JsonConfig{
 			SettingsFileName: defaultConfig.SettingsFileName,
-			Path: defaultConfig.Path,
+			Path:             defaultConfig.Path,
 		}
 	} else {
 		newConfig = JsonConfig{
 			SettingsFileName: config.SettingsFileName,
-			Path: config.Path,
+			Path:             config.Path,
 		}
 	}
 
@@ -179,7 +177,7 @@ func (config *JsonConfiguration) navigateToObject(baseKey string) (map[string]in
 	path := strings.Split(baseKey, ".")
 
 	root := config.Json
-	partialPath := []string
+	partialPath := make([]string, 0)
 
 	for _, name := range path {
 		append(partialPath, name)
@@ -189,7 +187,7 @@ func (config *JsonConfiguration) navigateToObject(baseKey string) (map[string]in
 		for _, propertyName = range root {
 			if strings.EqualFold(name, propertyName) {
 				found = true
-				break;
+				break
 			}
 		}
 

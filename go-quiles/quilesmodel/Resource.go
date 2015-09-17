@@ -1,7 +1,6 @@
 package quilesmodel
 
 import (
-	"github.com/blang/semver"
 	"github.com/xeipuuv/gojsonschema"
 	"net/url"
 )
@@ -17,5 +16,5 @@ type Resource struct {
 
 	Events map[string]ResourceEvent
 
-	Converters map[semver.Version]ResourceConverter
+	Converters map[string]ResourceConverter
 }

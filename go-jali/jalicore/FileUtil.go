@@ -7,17 +7,18 @@ import (
 )
 
 func FindSettingsFile(fileName string, initialPath string) (string, error) {
-	if IsNilOrEmpty(fileName) {
-		return _, ArgumentNilError{}.Init("fileName")
+	if fileName == "" {
+		return "", (&ArgumentNilError{}).Init("fileName")
 	}
 
-	if IsNilOrEmpty(initialPath) {
-		return _, ArgumentNilError{}.Init("initialPath")
+	if fileName == "" {
+		return "", (&ArgumentNilError{}).Init("initialPath")
 	}
 
 	fileInfo, err := os.Stat(initialPath)
 
-	var msg string = nil
+	var msg string = ""
+
 	switch {
 	case err == nil:
 		if !fileInfo.IsDir() {
@@ -29,11 +30,11 @@ func FindSettingsFile(fileName string, initialPath string) (string, error) {
 		msg = fmt.Sprintf("The path is in error: ''%s'.", err.Error())
 	}
 
-	if msg != nil {
-		return _, ArgumentError{}.Init("initialPath", msg, err)
+	if msg != "" {
+		return "", (&ArgumentError{}).Init("initialPath", msg, err)
 	}
 
-	for path := initialPath; path != nil; path = filepath.Split(path) {
+	for path := initialPath; path != ""; path, _ = filepath.Split(path) {
 		settingsFile := filepath.Join(path, fileName)
 
 		if fileInfo, err := os.Stat(settingsFile); err != nil || fileInfo.IsDir() {
@@ -44,12 +45,12 @@ func FindSettingsFile(fileName string, initialPath string) (string, error) {
 
 			if err != nil {
 				msg := fmt.Sprintf("Settings file '%s' is in error: '%s'.", priorSettingsFile, err.Error())
-				return _, InvalidOperationError{}.Init(msg, err)
+				return "", (&InvalidOperationError{}).Init(msg, err)
 			}
 
-			return settingsFile, _
+			return settingsFile, nil
 		}
 	}
 
-	return _, _
+	return "", nil
 }

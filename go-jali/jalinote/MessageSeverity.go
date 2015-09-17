@@ -3,7 +3,7 @@ package jalinote
 type MessageSeverity int
 
 const (
-	None MessageSeverity = iota
+	SeverityNone MessageSeverity = iota
 	Critical
 	Error
 	Warning

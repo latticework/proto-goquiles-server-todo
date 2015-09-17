@@ -10,14 +10,14 @@ type ArgumentNilError struct {
 func (err *ArgumentNilError) Init(name string) *ArgumentNilError {
 	var msg string
 
-	if name != nil || len(name) > 0 {
+	if name != "" || len(name) > 0 {
 		msg = fmt.Sprintf("Argument '%v' is 'nil'.", name)
 	} else {
 		msg = "Argument is 'nil'."
 	}
 
-	err.StructuredError.Init(msg, _)
+	err.StructuredError.Init(msg, nil)
 	err.Name = name
 
-	return &err
+	return err
 }

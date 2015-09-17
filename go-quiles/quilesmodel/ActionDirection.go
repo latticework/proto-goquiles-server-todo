@@ -3,13 +3,13 @@ package quilesmodel
 type ActionDirection int
 
 const (
-	None ActionDirection = iota
+	DirectionNone ActionDirection = iota
 	To
 	From
 )
 
 var actionDirections = [...]string{
-	"None",
+	"DirectionNone",
 	"To",
 	"From",
 }

@@ -2,8 +2,7 @@ package command
 
 import (
 	"fmt"
-	"github.com/latticework/proto-goquiles-server-todo/go-jali/jalicore"
-	"path/filepath"
+	"github.com/latticework/proto-goquiles-server-todo/go-quiles/quilesmodel"
 	"strings"
 )
 
@@ -12,8 +11,6 @@ type ServerCommand struct {
 }
 
 func (c *ServerCommand) Run(args []string) int {
-	var requestUrl, requestJson string
-
 	// TODO: Ref https://github.com/hashicorp/vault/blob/master/command/server.go
 
 	flags := c.Meta.FlagSet("server", FlagSetDefault)
@@ -27,35 +24,14 @@ func (c *ServerCommand) Run(args []string) int {
 	//		return 1
 	//	}
 
-	pwdAbsolute, err := filepath.Abs("./")
+	service, err := quilesmodel.DecodeService(nil)
 
 	if err != nil {
-		msg := "Error getting current working directory: '%s'", err.Error()
-		c.Ui.Error(msg)
-		return 1
+		c.Ui.Error(err.Error())
 	}
 
-	serviceDefinitionFile, err := jalicore.FindSettingsFile("servicequiles.json", pwdAbsolute)
-
-	if err != nil {
-		var msg string
-
-		switch err := err.(type) {
-		case jalicore.StructuredError:
-			msg = fmt.Sprintf(
-				"Unable to find service definition file from location '%s'.\nError Type: '%s'\nMessage:\n'%s'\nStack:\n%s",
-				pwdAbsolute, err.TypeName(), err.Error(), err.ErrorStack())
-		default:
-			msg = fmt.Sprintf(
-				"Unable to find service definition file from location '%s'. Error: %s",
-				pwdAbsolute, err.Error())
-
-		}
-
-		c.Ui.Error(msg)
-
-		return 1
-	}
+	c.Ui.Output(fmt.Sprintf("Service Name: '%s'", service.Name))
+	c.Ui.Output(fmt.Sprintf("Url: '%s'", service.Url))
 
 	return 0
 }

@@ -68,7 +68,7 @@ func (frame *StackFrame) SourceLine() (string, error) {
 	data, err := ioutil.ReadFile(frame.File)
 
 	if err != nil {
-		return "", InternalError{}.Init(_, err)
+		return "", (&InternalError{}).Init("", err)
 	}
 
 	lines := bytes.Split(data, []byte{'\n'})

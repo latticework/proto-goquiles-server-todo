@@ -3,7 +3,6 @@ package command
 import (
 	"strings"
 
-	"github.com/latticework/proto-goquiles-server-todo/goquilesctl/api"
 	"github.com/mitchellh/cli"
 	//	"os"
 	//	"net/http"
@@ -21,28 +20,6 @@ type Meta struct {
 
 	flagAddress        string
 	flagServiceVersion string
-}
-
-func (m *Meta) Client() (*api.Client, error) {
-	config := api.DefaultConfig()
-	//	if address := os.Getenv(EnvQuilesServerAddress); address != "" {
-	//		config.Address = address
-	//	}
-
-	//	if serviceVersion := os.Getenv(EnvQuilesServiceVersion); serviceVersion != "" {
-	//		config.ServiceVersion = serviceVersion
-	//	}
-
-	if m.flagAddress != "" {
-		config.Address = m.flagAddress
-	}
-
-	client, err := api.NewClient(config)
-	if err != nil {
-		return nil, err
-	}
-
-	return client, nil
 }
 
 type FlagSetFlags uint

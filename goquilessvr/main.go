@@ -1,7 +1,7 @@
 package goquilessvr
 
 import (
-	"github.com/latticework/proto-goquiles-server-todo/goquilesctl/cli"
+	"github.com/latticework/proto-goquiles-server-todo/goquilessvr/cli"
 	"os"
 )
 

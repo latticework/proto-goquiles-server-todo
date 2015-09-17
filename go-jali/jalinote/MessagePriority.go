@@ -3,7 +3,7 @@ package jalinote
 type MessagePriority int
 
 const (
-	None MessagePriority = iota
+	PriorityNone MessagePriority = iota
 	Mandatory
 	High
 	Normal

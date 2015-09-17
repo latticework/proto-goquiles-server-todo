@@ -3,16 +3,16 @@ package quilesmodel
 type SchemaType int
 
 const (
-	None SchemaType = iota
-	Result
+	SchemaNone SchemaType = iota
+	SchemaResult
 	Resource
 	Event
 	Direct
 )
 
 var schemaTypes = [...]string{
-	"None",
-	"Result",
+	"SchemaNone",
+	"SchemaResult",
 	"Resource",
 	"Event",
 	"Direct",
